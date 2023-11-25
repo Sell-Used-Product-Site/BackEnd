@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
+    const [registrationMessage, setRegistrationMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Additional validation could be performed here
-        if(password !== confirmPassword) {
-            alert("Passwords don't match.");
+        if (password !== confirmPassword) {
+            setRegistrationMessage("Passwords don't match.");
             return;
         }
+        setError('');
         try {
             const response = await fetch('/api/register', {
                 method: 'POST',
@@ -20,18 +24,21 @@ function Register() {
                 body: JSON.stringify({ username, email, password }),
             });
             const data = await response.json();
+            console.log(data); // Debug: Log the response data
             if (data.success) {
-                // Handle successful registration
+                setRegistrationMessage('Registration successful, navigating to login...'); // Debug: Log success
+                navigate('/login');
             } else {
-                // Handle registration failure
+                setRegistrationMessage(data.message || 'Registration failed. Please try again.');
             }
         } catch (error) {
-            // Handle errors in case the fetch fails
+            setRegistrationMessage('An error occurred. Please try again later.');
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <div>
+            <form onSubmit={handleSubmit}>
             <input 
                 type="text" 
                 value={username} 
@@ -62,6 +69,8 @@ function Register() {
             />
             <button type="submit">Register</button>
         </form>
+        {registrationMessage && <p>{registrationMessage}</p>}
+        </div>
     );
 }
 

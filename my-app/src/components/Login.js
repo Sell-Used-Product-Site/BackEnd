@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
-function Login() {
+function Login({ setIsLoggedIn }) { // Receive setIsLoggedIn if you want to manage logged-in state
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(''); // Added state to handle error messages.
+    const [error, setError] = useState('');
+    const navigate = useNavigate(); // Initialize navigate function
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // Clear any existing errors.
+        setError('');
         try {
             const response = await fetch('/api/login', {
                 method: 'POST',
@@ -16,15 +18,13 @@ function Login() {
             });
             const data = await response.json();
             if (data.success) {
-                // Handle successful login
-                // Redirect to another page or update the state accordingly.
+                // Update the state to reflect that the user is logged in
+                setIsLoggedIn(true); // This function should be passed down from a parent component
+                navigate('/dashboard'); // Redirect the user to the dashboard page or any other page
             } else {
-                // Handle login failure
-                // Display an error message or take other actions as needed.
-                setError(data.message || 'Login failed'); // Display error from server or a default message.
+                setError(data.message || 'Login failed');
             }
         } catch (error) {
-            // Handle errors from the fetch request itself
             setError('An error occurred. Please try again later.');
         }
     };
