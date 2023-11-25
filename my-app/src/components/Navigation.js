@@ -1,19 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types'; // Import PropTypes
+import { NavLink } from 'react-router-dom'; // Import NavLink for active styling
 
 function Navigation({ isLoggedIn }) {
     return (
         <nav>
             {isLoggedIn ? (
-                <Link to="/logout">Logout</Link>
+                <NavLink to="/logout" activeClassName="active">Logout</NavLink>
             ) : (
                 <>
-                    <Link to="/login">Login</Link>
-                    <Link to="/register">Register</Link>
+                    <NavLink to="/login" activeClassName="active">Login</NavLink>
+                    <NavLink to="/register" activeClassName="active">Register</NavLink>
                 </>
             )}
         </nav>
     );
 }
+
+// Define prop types for better validation
+Navigation.propTypes = {
+    isLoggedIn: PropTypes.bool.isRequired
+};
 
 export default Navigation;
