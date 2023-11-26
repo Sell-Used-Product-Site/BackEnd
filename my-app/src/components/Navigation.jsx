@@ -28,8 +28,7 @@ function Navigation({ isLoggedIn, setIsLoggedIn }) {
 
 // Define prop types for better validation
 Navigation.propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired,
-    setIsLoggedIn: PropTypes.func.isRequired // Include this if you are managing the logged-in state from a parent component
+    isLoggedIn: PropTypes.bool.isRequired
 };
 
 export default Navigation;
