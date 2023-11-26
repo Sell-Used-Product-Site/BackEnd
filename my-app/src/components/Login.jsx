@@ -10,6 +10,7 @@ function Login({ setIsLoggedIn }) { // Receive setIsLoggedIn if you want to mana
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+    
         try {
             const response = await fetch('/api/login', {
                 method: 'POST',
@@ -18,9 +19,8 @@ function Login({ setIsLoggedIn }) { // Receive setIsLoggedIn if you want to mana
             });
             const data = await response.json();
             if (data.success) {
-                // Update the state to reflect that the user is logged in
-                setIsLoggedIn(true); // This function should be passed down from a parent component
-                navigate('/dashboard'); // Redirect the user to the dashboard page or any other page
+                setIsLoggedIn(true);
+                navigate('/dashboard');
             } else {
                 setError(data.message || 'Login failed');
             }
@@ -28,6 +28,7 @@ function Login({ setIsLoggedIn }) { // Receive setIsLoggedIn if you want to mana
             setError('An error occurred. Please try again later.');
         }
     };
+    
 
     return (
         <form onSubmit={handleSubmit}>

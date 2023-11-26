@@ -17,6 +17,7 @@ function Register() {
             return;
         }
         setError('');
+    
         try {
             const response = await fetch('/api/register', {
                 method: 'POST',
@@ -24,9 +25,8 @@ function Register() {
                 body: JSON.stringify({ username, email, password }),
             });
             const data = await response.json();
-            console.log(data); // Debug: Log the response data
             if (data.success) {
-                setRegistrationMessage('Registration successful, navigating to login...'); // Debug: Log success
+                setRegistrationMessage('Registration successful, navigating to login...');
                 navigate('/login');
             } else {
                 setRegistrationMessage(data.message || 'Registration failed. Please try again.');
@@ -35,6 +35,7 @@ function Register() {
             setRegistrationMessage('An error occurred. Please try again later.');
         }
     };
+    
 
     return (
         <div>
