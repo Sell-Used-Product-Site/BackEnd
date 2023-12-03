@@ -21,7 +21,7 @@ app.use('/api/products', productRoutes)
 app.use('/api/user', userRoutes)
 
 // connect to db
-mongoose.connect("mongodb+srv://chandupa:Mattegoda11@cluster0.lmur7fr.mongodb.net/")
+mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     // listen for requests
     app.listen(process.env.PORT, () => {
